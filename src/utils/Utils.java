@@ -1,5 +1,7 @@
 package utils;
 
+import database.Database;
+import entities.Gift;
 import fileio.ChildInput;
 import fileio.ChildUpdateInput;
 import fileio.GiftInput;
@@ -7,6 +9,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Utils {
 
@@ -92,6 +95,23 @@ public class Utils {
         } else {
             return null;
         }
+    }
+
+    public static ArrayList<Gift> sortGiftList(ArrayList<Gift> gifts) {
+        gifts.sort(Comparator.comparing(Gift::getPrice));
+        return gifts;
+    }
+
+    public static ArrayList<Gift> pickArray(String giftType) {
+        return switch (giftType) {
+            case "Board Games" -> Database.getDatabase().getBoardGames();
+            case "Books" -> Database.getDatabase().getBooks();
+            case "Clothes" -> Database.getDatabase().getClothes();
+            case "Sweets" -> Database.getDatabase().getSweets();
+            case "Technology" -> Database.getDatabase().getTechnology();
+            case "Toys" -> Database.getDatabase().getToys();
+            default -> null;
+        };
     }
 
 

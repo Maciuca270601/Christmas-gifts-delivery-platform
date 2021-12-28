@@ -5,23 +5,37 @@ import entities.Gift;
 import fileio.ChildInput;
 import fileio.GiftInput;
 import fileio.YearDataInput;
+import utils.Utils;
+
 import java.util.ArrayList;
 
 public class Database {
 
     private Integer numberOfYears;
-    private Double SantaBudget;
+    private Double santaBudget;
     private ArrayList<Child> listOfChildren;
     private ArrayList<Gift> listOfGifts;
+    private ArrayList<Gift> boardGames;
+    private ArrayList<Gift> books;
+    private ArrayList<Gift> clothes;
+    private ArrayList<Gift> sweets;
+    private ArrayList<Gift> technology;
+    private ArrayList<Gift> toys;
     private ArrayList<YearDataInput> annualChanges;
 
     private static Database instance = null;
 
     private Database() {
         this.numberOfYears = 0;
-        this.SantaBudget = 0d;
+        this.santaBudget = 0d;
         this.listOfChildren = new ArrayList<>();
         this.listOfGifts = new ArrayList<>();
+        this.boardGames = new ArrayList<>();
+        this.books = new ArrayList<>();
+        this.clothes = new ArrayList<>();
+        this.sweets = new ArrayList<>();
+        this.technology = new ArrayList<>();
+        this.toys = new ArrayList<>();
         this.annualChanges = new ArrayList<>();
     }
 
@@ -37,7 +51,7 @@ public class Database {
     }
 
     public void setSantaBudget(Double santaBudget) {
-        this.SantaBudget = santaBudget;
+        this.santaBudget = santaBudget;
     }
 
 
@@ -51,8 +65,25 @@ public class Database {
     public void setListOfGifts (ArrayList<GiftInput> giftsInput) {
         for (GiftInput giftInput: giftsInput) {
             Gift gift = new Gift(giftInput);
+            switch (gift.getCategory()) {
+                case "Board Games": boardGames.add(gift);
+                case "Books": books.add(gift);
+                case "Clothes": clothes.add(gift);
+                case "Sweets": sweets.add(gift);
+                case "Technology": technology.add(gift);
+                case "Toys": toys.add(gift);
+            }
             this.listOfGifts.add(gift);
         }
+    }
+
+    public void sortListOfGifts () {
+        this.boardGames = Utils.sortGiftList(boardGames);
+        this.books = Utils.sortGiftList(books);
+        this.clothes = Utils.sortGiftList(clothes);
+        this.sweets = Utils.sortGiftList(sweets);
+        this.technology = Utils.sortGiftList(technology);
+        this.toys = Utils.sortGiftList(toys);
     }
 
     public void setAnnualChanges (ArrayList<YearDataInput> annualChangesInput) {
@@ -64,7 +95,7 @@ public class Database {
     }
 
     public Double getSantaBudget() {
-        return SantaBudget;
+        return santaBudget;
     }
 
     public ArrayList<Child> getListOfChildren() {
@@ -77,5 +108,43 @@ public class Database {
 
     public ArrayList<YearDataInput> getAnnualChanges() {
         return annualChanges;
+    }
+
+    public ArrayList<Gift> getBoardGames() {
+        return boardGames;
+    }
+
+    public ArrayList<Gift> getBooks() {
+        return books;
+    }
+
+    public ArrayList<Gift> getClothes() {
+        return clothes;
+    }
+
+    public ArrayList<Gift> getSweets() {
+        return sweets;
+    }
+
+    public ArrayList<Gift> getTechnology() {
+        return technology;
+    }
+
+    public ArrayList<Gift> getToys() {
+        return toys;
+    }
+
+    public void resetDatabase() {
+        this.numberOfYears = 0;
+        this.santaBudget = 0d;
+        this.listOfChildren.clear();
+        this.listOfGifts.clear();
+        this.boardGames.clear();
+        this.books.clear();
+        this.clothes.clear();
+        this.sweets.clear();
+        this.technology.clear();
+        this.toys.clear();
+        this.annualChanges.clear();
     }
 }

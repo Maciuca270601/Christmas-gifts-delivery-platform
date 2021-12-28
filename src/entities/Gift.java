@@ -2,7 +2,7 @@ package entities;
 
 import fileio.GiftInput;
 
-public class Gift {
+public class Gift{
 
     private String productName;
     private Double price;
@@ -37,4 +37,13 @@ public class Gift {
     public void setCategory(String category) {
         this.category = category;
     }
+
+//    @Override
+//    public String toString() {
+//        return "Gift{" +
+//                "productName='" + productName + '\'' +
+//                ", price=" + price +
+//                ", category='" + category + '\'' +
+//                '}';
+//    }
 }

@@ -1,20 +1,17 @@
 package main;
 
 import checker.Checker;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import common.Constants;
 import database.Database;
 import database.Parser;
 import fileio.Input;
 import fileio.InputLoader;
 
-import fileio.Writer;
-import org.json.simple.JSONArray;
+import solver.Solver;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Objects;
 
 /**
@@ -32,7 +29,7 @@ public final class Main {
      */
     public static void main(final String[] args) throws IOException {
         File directory = new File(Constants.TESTS_PATH);
-        File outputDirectory = new File(Constants.OUTPUT_PATH);
+        //File outputDirectory = new File(Constants.OUTPUT_PATH);
 
         for (File file: Objects.requireNonNull(directory.listFiles())) {
             String filepath = Constants.OUTPUT_PATH + file.getName();
@@ -56,13 +53,19 @@ public final class Main {
         InputLoader inputLoader = new InputLoader(filePath1);
         Input input = inputLoader.readData();
 
-        Writer fileWriter = new Writer(filePath2);
-        JSONArray arrayResult = new JSONArray();
+        //File outputFile = new File(filePath2);
         //TODO PROGRAM
+
         Parser parser = new Parser();
         parser.buildDatabase(input);
 
+        Solver solver = new Solver(filePath2);
+        solver.solve();
 
-        fileWriter.closeJson(arrayResult);
+        //Write object to json
+        ObjectMapper mapper = new ObjectMapper();
+
+        // reset the database
+        Database.getDatabase().resetDatabase();
     }
 }
