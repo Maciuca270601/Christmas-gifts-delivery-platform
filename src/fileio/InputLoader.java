@@ -34,16 +34,15 @@ public class InputLoader {
         try {
             //Parsing the contents of the JSON file
             JSONObject jsonObject = (JSONObject) jsonParser.parse(new FileReader(inputPath));
-            JSONObject database = (JSONObject) jsonObject.get("database");
-            JSONObject jsonNumberOfYears = (JSONObject) database.get("numberOfYears");
-            JSONObject jsonSantaBudget = (JSONObject) database.get("santaBudget");
-            JSONArray jsonChildren = (JSONArray) database.get("children");
-            JSONArray jsonGifts = (JSONArray) database.get("santaGiftList");
-            JSONArray jsonChanges = (JSONArray) database.get("annualChanges");
+            numberOfYears = ((Long) jsonObject.get("numberOfYears")).intValue();
+            santaBudget = ((Long) jsonObject.get("santaBudget")).doubleValue();
 
-            numberOfYears = (Integer) jsonNumberOfYears.get("numberOfYears");
+            JSONObject initData = (JSONObject) jsonObject.get("initialData");
+            JSONArray jsonChildren = (JSONArray) initData.get("children");
+            JSONArray jsonGifts = (JSONArray) initData.get("santaGiftsList");
 
-            santaBudget = (Double) jsonSantaBudget.get("santaBudget");
+            JSONArray jsonChanges = (JSONArray) jsonObject.get("annualChanges");
+
 
             if (jsonChildren != null) {
                 ArrayList<ChildInput> children = new ArrayList<>();
@@ -63,7 +62,7 @@ public class InputLoader {
 
             if (jsonChanges != null) {
                 for (Object jsonChange: jsonChanges) {
-                    Double budget = (Double) ((JSONObject) jsonChange).get("newSantaBudget");
+                    Double budget = ((Long) ((JSONObject) jsonChange).get("newSantaBudget")).doubleValue();
 
                     JSONArray arrayGifts = (JSONArray) ((JSONObject) jsonChange).get("newGifts");
                     ArrayList<GiftInput> gifts = new ArrayList<>();

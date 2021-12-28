@@ -25,7 +25,7 @@ public class Database {
         this.annualChanges = new ArrayList<>();
     }
 
-    public static Database getInstance() {
+    public static Database getDatabase() {
         if (instance == null) {
             instance = new Database();
         }
