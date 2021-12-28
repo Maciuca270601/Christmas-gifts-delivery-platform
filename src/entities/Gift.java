@@ -14,6 +14,12 @@ public class Gift{
         this.category = giftData.getCategory();
     }
 
+    public Gift (Gift gift) {
+        this.productName = gift.productName;
+        this.price = gift.price;
+        this.category = gift.category;
+    }
+
     public String getProductName() {
         return productName;
     }
@@ -38,12 +44,5 @@ public class Gift{
         this.category = category;
     }
 
-//    @Override
-//    public String toString() {
-//        return "Gift{" +
-//                "productName='" + productName + '\'' +
-//                ", price=" + price +
-//                ", category='" + category + '\'' +
-//                '}';
-//    }
+
 }

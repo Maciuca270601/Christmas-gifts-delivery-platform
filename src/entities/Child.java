@@ -11,30 +11,46 @@ public class Child implements Visitable {
     private Integer id;
     private String lastName;
     private String firstName;
-    private Integer age;
     private String city;
-    private Double niceScore;
-    private ArrayList<String> giftPreferences;
-    private ArrayList<Double> arrayNiceScore;
-    private Double avgScore;
-    private String category;
-    private Double budget;
-    private ArrayList<Gift> gifts;
+    private Integer age;
+    private ArrayList<String> giftsPreferences;
+    private Double averageScore;
+    private ArrayList<Double> niceScoreHistory;
+    private Double assignedBudget;
+    private ArrayList<Gift> receivedGifts;
 
     public Child (ChildInput childData) {
         this.id = childData.getId();
         this.lastName = childData.getLastName();
         this.firstName = childData.getFirstName();
-        this.age = childData.getAge();
         this.city = childData.getCity();
-        this.niceScore = childData.getNiceScore();
-        this.giftPreferences = childData.getGiftsPreferences();
-        this.arrayNiceScore = new ArrayList<>();
-        this.arrayNiceScore.add(this.niceScore);
-        this.avgScore = null;
-        this.category = null;
-        this.budget = null;
-        this.gifts = new ArrayList<>();
+        this.age = childData.getAge();
+        this.giftsPreferences = new ArrayList<>();
+        this.giftsPreferences.addAll(childData.getGiftsPreferences());
+        this.averageScore = null;
+        this.niceScoreHistory = new ArrayList<>();
+        this.niceScoreHistory.add(childData.getNiceScore());
+        this.assignedBudget = null;
+        this.receivedGifts = new ArrayList<>();
+    }
+
+    public Child (Child child) {
+        this.id = child.id;
+        this.lastName = child.lastName;
+        this.firstName = child.firstName;
+        this.city = child.city;
+        this.age = child.age;
+        this.giftsPreferences = new ArrayList<>();
+        this.giftsPreferences.addAll(child.getGiftsPreferences());
+        this.averageScore = child.averageScore;
+        this.niceScoreHistory = new ArrayList<>();
+        this.niceScoreHistory.addAll(child.getNiceScoreHistory());
+        this.assignedBudget = child.assignedBudget;
+        this.receivedGifts = new ArrayList<>();
+        for (Gift gift: child.receivedGifts) {
+            this.receivedGifts.add(new Gift(gift));
+        }
+
     }
 
     public Integer getId() {
@@ -49,48 +65,44 @@ public class Child implements Visitable {
         return firstName;
     }
 
-    public Integer getAge() {
-        return age;
-    }
-
     public String getCity() {
         return city;
     }
 
-    public Double getNiceScore() {
-        return niceScore;
+    public Integer getAge() {
+        return age;
     }
 
-    public ArrayList<String> getGiftPreferences() {
-        return giftPreferences;
+    public ArrayList<String> getGiftsPreferences() {
+        return giftsPreferences;
     }
 
-    public ArrayList<Double> getArrayNiceScore() {
-        return arrayNiceScore;
+    public Double getAverageScore() {
+        return averageScore;
     }
 
-    public Double getAvgScore() {
-        return avgScore;
+    public ArrayList<Double> getNiceScoreHistory() {
+        return niceScoreHistory;
     }
 
-    public String getCategory() {
-        return category;
+    public Double getAssignedBudget() {
+        return assignedBudget;
     }
 
-    public Double getBudget() { return budget;}
-
-    public ArrayList<Gift> getGifts() { return gifts;}
-
-    public void setAvgScore(Double avgScore) {
-        this.avgScore = avgScore;
+    public ArrayList<Gift> getReceivedGifts() {
+        return receivedGifts;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setAverageScore(Double averageScore) {
+        this.averageScore = averageScore;
     }
 
-    public void setBudget(Double budget) {
-        this.budget = budget;
+    public void setAssignedBudget(Double assignedBudget) {
+        this.assignedBudget = assignedBudget;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
     }
 
     @Override
@@ -98,21 +110,4 @@ public class Child implements Visitable {
         v.visit(this);
     }
 
-//    @Override
-//    public String toString() {
-//        return  "[ {" + "\n" +
-//                "id=" + id + "\n" +
-//                ", lastName='" + lastName + "\n" +
-//                ", firstName='" + firstName + '\n' +
-//                ", age=" + age + '\n' +
-//                ", city='" + city + '\n' +
-//                ", niceScore=" + niceScore + '\n' +
-//                ", giftPreferences=" + giftPreferences + '\n' +
-//                ", arrayNiceScore=" + arrayNiceScore + '\n' +
-//                ", avgScore=" + avgScore + '\n' +
-//                ", category='" + category + '\n' +
-//                ", budget=" + budget + '\n' +
-//                ", gifts=" + gifts + '\n' +
-//                '}';
-//    }
 }

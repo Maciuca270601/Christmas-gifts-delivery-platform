@@ -16,7 +16,9 @@ public class SaveAnnualArray {
         return children;
     }
 
-    public void setChildren(ArrayList<Child> children) {
-        this.children = children;
+    public void addChildren(ArrayList<Child> list) {
+        for (Child child: list) {
+            this.children.add(new Child(child));
+        }
     }
 }

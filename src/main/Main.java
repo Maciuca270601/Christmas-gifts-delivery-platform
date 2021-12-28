@@ -12,6 +12,9 @@ import solver.Solver;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Objects;
 
 /**
@@ -28,19 +31,27 @@ public final class Main {
      *          the arguments used to call the main method
      */
     public static void main(final String[] args) throws IOException {
-        File directory = new File(Constants.TESTS_PATH);
-        //File outputDirectory = new File(Constants.OUTPUT_PATH);
-
-        for (File file: Objects.requireNonNull(directory.listFiles())) {
-            String filepath = Constants.OUTPUT_PATH + file.getName();
-            File out = new File(filepath);
-            //boolean isCreated = out.createNewFile();
-            //if(isCreated) {
-            action(file.getAbsolutePath(), filepath);
-            //}
-        }
-
+        createOutput();
         Checker.calculateScore();
+    }
+
+    public static void createOutput() throws IOException {
+       File directory = new File(Constants.TESTS_PATH);
+       Path path = Paths.get(Constants.RESULT_PATH);
+       if (!Files.exists(path)) {
+           Files.createDirectories(path);
+       }
+
+       File outputDirectory = new File(Constants.RESULT_PATH);
+
+       for (File file: Objects.requireNonNull(directory.listFiles())) {
+
+           String integer = file.getName().substring(4);
+           String filepath = Constants.OUTPUT_PATH + integer;
+           File out = new File(filepath);
+           action(file.getAbsolutePath(), filepath);
+       }
+
     }
 
     /*

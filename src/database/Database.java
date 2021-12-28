@@ -65,13 +65,24 @@ public class Database {
     public void setListOfGifts (ArrayList<GiftInput> giftsInput) {
         for (GiftInput giftInput: giftsInput) {
             Gift gift = new Gift(giftInput);
-            switch (gift.getCategory()) {
-                case "Board Games": boardGames.add(gift);
-                case "Books": books.add(gift);
-                case "Clothes": clothes.add(gift);
-                case "Sweets": sweets.add(gift);
-                case "Technology": technology.add(gift);
-                case "Toys": toys.add(gift);
+
+            if (gift.getCategory().equals("Board Games")) {
+                boardGames.add(gift);
+            }
+            if (gift.getCategory().equals("Books")) {
+                books.add(gift);
+            }
+            if (gift.getCategory().equals("Clothes")) {
+                clothes.add(gift);
+            }
+            if (gift.getCategory().equals("Sweets")) {
+                sweets.add(gift);
+            }
+            if (gift.getCategory().equals("Technology")) {
+                technology.add(gift);
+            }
+            if (gift.getCategory().equals("Toys")) {
+                toys.add(gift);
             }
             this.listOfGifts.add(gift);
         }

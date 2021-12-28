@@ -12,10 +12,10 @@ public class BudgetVisitor implements Visitor{
         Double sumOfAvgScores = 0d;
 
         for (Child c: Database.getDatabase().getListOfChildren()) {
-            sumOfAvgScores += c.getAvgScore();
+            sumOfAvgScores += c.getAverageScore();
         }
         budgetUnit = Database.getDatabase().getSantaBudget() / sumOfAvgScores;
-        budget = budgetUnit * child.getAvgScore();
-        child.setBudget(budget);
+        budget = budgetUnit * child.getAverageScore();
+        child.setAssignedBudget(budget);
     }
 }

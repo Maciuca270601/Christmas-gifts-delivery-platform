@@ -24,9 +24,17 @@ public class Solver {
         solveFirst.solve();
 
         SaveAnnualArray saveAnnualArray = new SaveAnnualArray();
-        saveAnnualArray.setChildren(Database.getDatabase().getListOfChildren());
+        saveAnnualArray.addChildren(Database.getDatabase().getListOfChildren());
 
         this.saveSimulationArrays.addArray(saveAnnualArray);
+        SolveNextYears solveNext = new SolveNextYears();
+        for (int currYear = 1; currYear <= Database.getDatabase().getNumberOfYears(); currYear++) {
+            solveNext.Solve(currYear);
+            SaveAnnualArray saveAnnualArray1 = new SaveAnnualArray();
+            saveAnnualArray1.addChildren(Database.getDatabase().getListOfChildren());
+            this.saveSimulationArrays.addArray(saveAnnualArray1);
+        }
+
         write();
     }
 
