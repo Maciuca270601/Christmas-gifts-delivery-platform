@@ -2,19 +2,19 @@ package entities;
 
 import fileio.GiftInput;
 
-public class Gift{
+public final class Gift {
 
     private String productName;
     private Double price;
     private String category;
 
-    public Gift (GiftInput giftData) {
+    public Gift(final GiftInput giftData) {
         this.productName = giftData.getProductName();
         this.price = giftData.getPrice();
         this.category = giftData.getCategory();
     }
 
-    public Gift (Gift gift) {
+    public Gift(final Gift gift) {
         this.productName = gift.productName;
         this.price = gift.price;
         this.category = gift.category;
@@ -24,7 +24,7 @@ public class Gift{
         return productName;
     }
 
-    public void setProductName(String productName) {
+    public void setProductName(final String productName) {
         this.productName = productName;
     }
 
@@ -32,7 +32,7 @@ public class Gift{
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(final Double price) {
         this.price = price;
     }
 
@@ -40,9 +40,7 @@ public class Gift{
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(final String category) {
         this.category = category;
     }
-
-
 }

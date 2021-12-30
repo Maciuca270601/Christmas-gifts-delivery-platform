@@ -3,23 +3,22 @@ package entities;
 import fileio.ChildInput;
 import visitor.Visitable;
 import visitor.Visitor;
-
 import java.util.ArrayList;
 
-public class Child implements Visitable {
+public final class Child implements Visitable {
 
-    private Integer id;
-    private String lastName;
-    private String firstName;
-    private String city;
+    private final Integer id;
+    private final String lastName;
+    private final String firstName;
+    private final String city;
     private Integer age;
-    private ArrayList<String> giftsPreferences;
+    private final ArrayList<String> giftsPreferences;
     private Double averageScore;
-    private ArrayList<Double> niceScoreHistory;
+    private final ArrayList<Double> niceScoreHistory;
     private Double assignedBudget;
-    private ArrayList<Gift> receivedGifts;
+    private final ArrayList<Gift> receivedGifts;
 
-    public Child (ChildInput childData) {
+    public Child(final ChildInput childData) {
         this.id = childData.getId();
         this.lastName = childData.getLastName();
         this.firstName = childData.getFirstName();
@@ -34,7 +33,7 @@ public class Child implements Visitable {
         this.receivedGifts = new ArrayList<>();
     }
 
-    public Child (Child child) {
+    public Child(final Child child) {
         this.id = child.id;
         this.lastName = child.lastName;
         this.firstName = child.firstName;
@@ -50,7 +49,6 @@ public class Child implements Visitable {
         for (Gift gift: child.receivedGifts) {
             this.receivedGifts.add(new Gift(gift));
         }
-
     }
 
     public Integer getId() {
@@ -93,20 +91,20 @@ public class Child implements Visitable {
         return receivedGifts;
     }
 
-    public void setAverageScore(Double averageScore) {
+    public void setAverageScore(final Double averageScore) {
         this.averageScore = averageScore;
     }
 
-    public void setAssignedBudget(Double assignedBudget) {
+    public void setAssignedBudget(final Double assignedBudget) {
         this.assignedBudget = assignedBudget;
     }
 
-    public void setAge(Integer age) {
+    public void setAge(final Integer age) {
         this.age = age;
     }
 
     @Override
-    public void accept(Visitor v) {
+    public void accept(final Visitor v) {
         v.visit(this);
     }
 

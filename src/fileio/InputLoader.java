@@ -20,32 +20,43 @@ public class InputLoader {
         this.inputPath = inputPath;
     }
 
-    /*
-     * The method reads data from tests and returns an Input object.
+    /**
+     * The method collects data from tests and returns an Input object.
+     * @return Input object
+     *      -> returns an object that contains all the data collected from jsons.
      */
     public Input readData() {
         JSONParser jsonParser = new JSONParser();
-        Integer numberOfYears = 0;
-        Double santaBudget = 0d;
+        int numberOfYears = 0;
+        double santaBudget = 0d;
         ArrayList<ChildInput> initialData = new ArrayList<>();
         ArrayList<GiftInput> santaGiftList = new ArrayList<>();
         ArrayList<YearDataInput> annualChanges = new ArrayList<>();
 
         try {
-            //Parsing the contents of the JSON file
+            // Parsing the contents of the JSON file using a JSONObject
             JSONObject jsonObject = (JSONObject) jsonParser.parse(new FileReader(inputPath));
+
+            // Read an "int" from the jsonObject representing numberOfYears.
             numberOfYears = ((Long) jsonObject.get("numberOfYears")).intValue();
+
+            // Read a "double" from the jsonObject representing santaBudget.
             santaBudget = ((Long) jsonObject.get("santaBudget")).doubleValue();
 
+            // Read an "object" from the jsonObject representing initialData.
             JSONObject initData = (JSONObject) jsonObject.get("initialData");
+
+            // Read the list of children from the initialData object.
             JSONArray jsonChildren = (JSONArray) initData.get("children");
+
+            // Read the list of gifts from the initialData object.
             JSONArray jsonGifts = (JSONArray) initData.get("santaGiftsList");
 
+            // Read the list of changes from the initialData object.
             JSONArray jsonChanges = (JSONArray) jsonObject.get("annualChanges");
 
-
             if (jsonChildren != null) {
-                ArrayList<ChildInput> children = new ArrayList<>();
+                ArrayList<ChildInput> children;
                 children = Utils.convertJSONArrayChild(jsonChildren);
                 initialData.addAll(children);
             } else {
@@ -53,7 +64,7 @@ public class InputLoader {
             }
 
             if (jsonGifts != null) {
-                ArrayList<GiftInput> gifts = new ArrayList<>();
+                ArrayList<GiftInput> gifts;
                 gifts = Utils.convertJSONArrayGift(jsonGifts);
                 santaGiftList.addAll(gifts);
             } else {
@@ -62,18 +73,22 @@ public class InputLoader {
 
             if (jsonChanges != null) {
                 for (Object jsonChange: jsonChanges) {
-                    Double budget = ((Long) ((JSONObject) jsonChange).get("newSantaBudget")).doubleValue();
+                    Double budget = ((Long) ((JSONObject) jsonChange)
+                            .get("newSantaBudget")).doubleValue();
 
-                    JSONArray arrayGifts = (JSONArray) ((JSONObject) jsonChange).get("newGifts");
-                    ArrayList<GiftInput> gifts = new ArrayList<>();
+                    JSONArray arrayGifts = (JSONArray) ((JSONObject) jsonChange)
+                            .get("newGifts");
+                    ArrayList<GiftInput> gifts;
                     gifts = Utils.convertJSONArrayGift(arrayGifts);
 
-                    JSONArray arrayChildren = (JSONArray) ((JSONObject) jsonChange).get("newChildren");
-                    ArrayList<ChildInput> children = new ArrayList<>();
+                    JSONArray arrayChildren = (JSONArray) ((JSONObject) jsonChange)
+                            .get("newChildren");
+                    ArrayList<ChildInput> children;
                     children = Utils.convertJSONArrayChild(arrayChildren);
 
-                    JSONArray arrayChanges = (JSONArray) ((JSONObject) jsonChange).get("childrenUpdates");
-                    ArrayList<ChildUpdateInput> updates = new ArrayList<>();
+                    JSONArray arrayChanges = (JSONArray) ((JSONObject) jsonChange)
+                            .get("childrenUpdates");
+                    ArrayList<ChildUpdateInput> updates;
                     updates = Utils.convertJSONArrayUpdate(arrayChanges);
 
                     YearDataInput yearData = new YearDataInput(budget, gifts, children, updates);
@@ -100,5 +115,4 @@ public class InputLoader {
         }
         return new Input(numberOfYears, santaBudget, initialData, santaGiftList, annualChanges);
     }
-
 }

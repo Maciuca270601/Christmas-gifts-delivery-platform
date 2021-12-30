@@ -1,20 +1,26 @@
 package fileio;
 
-public class GiftInput {
+public final class GiftInput {
 
-    private String productName;
-    private Double price;
-    private String category;
+    private final String productName;
+    private final Double price;
+    private final String category;
 
-    public GiftInput(String productName, Double price, String category) {
+    public GiftInput(final String productName, final Double price, final String category) {
         this.productName = productName;
         this.price = price;
         this.category = category;
     }
 
-    public String getProductName() { return productName; }
+    public String getProductName() {
+        return productName;
+    }
 
-    public Double getPrice() { return price; }
+    public Double getPrice() {
+        return price;
+    }
 
-    public String getCategory() { return category; }
+    public String getCategory() {
+        return category;
+    }
 }

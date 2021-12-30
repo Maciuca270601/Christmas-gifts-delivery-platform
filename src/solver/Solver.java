@@ -4,44 +4,55 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import database.Database;
 import write.SaveAnnualArray;
 import write.SaveSimulationArrays;
-
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-@SuppressWarnings("unchecked")
 
-public class Solver {
-    private SaveSimulationArrays saveSimulationArrays;
-    private String path;
+public final class Solver {
+    private final SaveSimulationArrays saveSimulationArrays;
+    private final String path;
 
-    public Solver(String path) {
+    public Solver(final String path) {
         this.path = path;
         this.saveSimulationArrays = new SaveSimulationArrays();
     }
 
+    /**
+     * This method solves the simulation and saves the result in two different objects.
+     * -> SaveAnnualArray: a class that stores an array of children for each year.
+     * -> SaveSimulationArrays: a class that stores an array of SaveAnnualArray objects.
+     */
     public void solve() throws IOException {
+        // Solve first year.
         SolveFirstYear solveFirst = new SolveFirstYear();
         solveFirst.solve();
 
+        // Save the result of the first year of simulation.
         SaveAnnualArray saveAnnualArray = new SaveAnnualArray();
         saveAnnualArray.addChildren(Database.getDatabase().getListOfChildren());
-
         this.saveSimulationArrays.addArray(saveAnnualArray);
+
+        // Solve next years.
         SolveNextYears solveNext = new SolveNextYears();
         for (int currYear = 1; currYear <= Database.getDatabase().getNumberOfYears(); currYear++) {
-            solveNext.Solve(currYear);
-            SaveAnnualArray saveAnnualArray1 = new SaveAnnualArray();
-            saveAnnualArray1.addChildren(Database.getDatabase().getListOfChildren());
-            this.saveSimulationArrays.addArray(saveAnnualArray1);
+            solveNext.solve(currYear);
+
+            // Save the result of the next years of simulation.
+            SaveAnnualArray save = new SaveAnnualArray();
+            save.addChildren(Database.getDatabase().getListOfChildren());
+            this.saveSimulationArrays.addArray(save);
         }
 
+        // Write the output
         write();
     }
 
+    /**
+     * This method writes the saveSimulationArrays object into a jsonfile.
+     */
     public void write() throws IOException {
         ObjectMapper mapper =  new ObjectMapper();
-        //mapper.writeValue(this.outputFile, this.saveSimulationArrays);
-        String jsonInString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(this.saveSimulationArrays);
+        String jsonInString = mapper.writerWithDefaultPrettyPrinter()
+                .writeValueAsString(this.saveSimulationArrays);
         FileWriter writer = new FileWriter(this.path);
         writer.write(jsonInString);
         writer.close();

@@ -6,22 +6,21 @@ import fileio.ChildInput;
 import fileio.GiftInput;
 import fileio.YearDataInput;
 import utils.Utils;
-
 import java.util.ArrayList;
 
-public class Database {
+public final class Database {
 
     private Integer numberOfYears;
     private Double santaBudget;
-    private ArrayList<Child> listOfChildren;
-    private ArrayList<Gift> listOfGifts;
-    private ArrayList<Gift> boardGames;
-    private ArrayList<Gift> books;
-    private ArrayList<Gift> clothes;
-    private ArrayList<Gift> sweets;
-    private ArrayList<Gift> technology;
-    private ArrayList<Gift> toys;
-    private ArrayList<YearDataInput> annualChanges;
+    private final ArrayList<Child> listOfChildren;
+    private final ArrayList<Gift> listOfGifts;
+    private final ArrayList<Gift> boardGames;
+    private final ArrayList<Gift> books;
+    private final ArrayList<Gift> clothes;
+    private final ArrayList<Gift> sweets;
+    private final ArrayList<Gift> technology;
+    private final ArrayList<Gift> toys;
+    private final ArrayList<YearDataInput> annualChanges;
 
     private static Database instance = null;
 
@@ -39,6 +38,11 @@ public class Database {
         this.annualChanges = new ArrayList<>();
     }
 
+    /**
+     * This method is used to initialize the Database using a EagerSingleton Pattern.
+     * @return instance
+     *      -> returns a Database object.
+     */
     public static Database getDatabase() {
         if (instance == null) {
             instance = new Database();
@@ -46,23 +50,32 @@ public class Database {
         return instance;
     }
 
-    public void setNumberOfYears (Integer numberOfYears) {
+    public void setNumberOfYears(final Integer numberOfYears) {
         this.numberOfYears = numberOfYears;
     }
 
-    public void setSantaBudget(Double santaBudget) {
+    public void setSantaBudget(final Double santaBudget) {
         this.santaBudget = santaBudget;
     }
 
-
-    public void setListOfChildren (ArrayList<ChildInput> childrenInput) {
+    /**
+     * This method is used to populate the array of children from the database.
+     * @param childrenInput
+     *      -> receives an array of children from the json file.
+     */
+    public void setListOfChildren(final ArrayList<ChildInput> childrenInput) {
         for (ChildInput childInput: childrenInput) {
             Child child = new Child(childInput);
             this.listOfChildren.add(child);
         }
     }
 
-    public void setListOfGifts (ArrayList<GiftInput> giftsInput) {
+    /**
+     * This method is used to populate both the general array of gifts and the specific ones too.
+     * @param giftsInput
+     *      -> receives an array of gifts from the json file.
+     */
+    public void setListOfGifts(final ArrayList<GiftInput> giftsInput) {
         for (GiftInput giftInput: giftsInput) {
             Gift gift = new Gift(giftInput);
 
@@ -88,16 +101,41 @@ public class Database {
         }
     }
 
-    public void sortListOfGifts () {
-        this.boardGames = Utils.sortGiftList(boardGames);
-        this.books = Utils.sortGiftList(books);
-        this.clothes = Utils.sortGiftList(clothes);
-        this.sweets = Utils.sortGiftList(sweets);
-        this.technology = Utils.sortGiftList(technology);
-        this.toys = Utils.sortGiftList(toys);
+    /**
+     * This method sorts the arrays of gifts from the database.
+     */
+    public void sortListOfGifts() {
+        Utils.sortGiftList(boardGames);
+        Utils.sortGiftList(books);
+        Utils.sortGiftList(clothes);
+        Utils.sortGiftList(sweets);
+        Utils.sortGiftList(technology);
+        Utils.sortGiftList(toys);
     }
 
-    public void setAnnualChanges (ArrayList<YearDataInput> annualChangesInput) {
+    /**
+     * This method resets the data from the database between different tests.
+     */
+    public void resetDatabase() {
+        this.numberOfYears = 0;
+        this.santaBudget = 0d;
+        this.listOfChildren.clear();
+        this.listOfGifts.clear();
+        this.boardGames.clear();
+        this.books.clear();
+        this.clothes.clear();
+        this.sweets.clear();
+        this.technology.clear();
+        this.toys.clear();
+        this.annualChanges.clear();
+    }
+
+    /**
+     * This method is used to populate the annualChanges array from the database.
+     * @param annualChangesInput
+     *      -> receives an array of changes for each year from the json file.
+     */
+    public void setAnnualChanges(final ArrayList<YearDataInput> annualChangesInput) {
         this.annualChanges.addAll(annualChangesInput);
     }
 
@@ -143,19 +181,5 @@ public class Database {
 
     public ArrayList<Gift> getToys() {
         return toys;
-    }
-
-    public void resetDatabase() {
-        this.numberOfYears = 0;
-        this.santaBudget = 0d;
-        this.listOfChildren.clear();
-        this.listOfGifts.clear();
-        this.boardGames.clear();
-        this.books.clear();
-        this.clothes.clear();
-        this.sweets.clear();
-        this.technology.clear();
-        this.toys.clear();
-        this.annualChanges.clear();
     }
 }

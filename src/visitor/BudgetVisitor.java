@@ -3,12 +3,12 @@ package visitor;
 import database.Database;
 import entities.Child;
 
-public class BudgetVisitor implements Visitor{
+public final class BudgetVisitor implements Visitor {
     @Override
-    public void visit(Child child) {
+    public void visit(final Child child) {
 
-        double budgetUnit = 0d;
-        double budget = 0d;
+        double budgetUnit;
+        double budget;
         Double sumOfAvgScores = 0d;
 
         for (Child c: Database.getDatabase().getListOfChildren()) {

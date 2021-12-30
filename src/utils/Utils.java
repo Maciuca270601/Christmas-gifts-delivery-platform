@@ -1,5 +1,6 @@
 package utils;
 
+import common.Constants;
 import database.Database;
 import entities.Child;
 import entities.Gift;
@@ -9,18 +10,18 @@ import fileio.GiftInput;
 import fileio.YearDataInput;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Objects;
 
-public class Utils {
+public final class Utils {
 
     private Utils() {
+
     }
 
-    /*
-     * Transforms an array of JSON's into an array of strings
+    /**
+     * This method transforms an array of JSON's into an array of strings.
      */
     public static ArrayList<String> convertJSONArrayString(final JSONArray array) {
         if (array != null) {
@@ -34,8 +35,8 @@ public class Utils {
         }
     }
 
-    /*
-     * Transforms an array of JSON's into an array of ChildInput
+    /**
+     * This method transforms an array of JSON's into an array of ChildInput.
      */
     public static ArrayList<ChildInput> convertJSONArrayChild(final JSONArray array) {
         if (array != null) {
@@ -48,7 +49,8 @@ public class Utils {
                         ((Long) ((JSONObject) object).get("age")).intValue(),
                         (String) ((JSONObject) object).get("city"),
                         ((Long) ((JSONObject) object).get("niceScore")).doubleValue(),
-                        Utils.convertJSONArrayString((JSONArray) ((JSONObject) object).get("giftsPreferences"))
+                        Utils.convertJSONArrayString((JSONArray) ((JSONObject) object)
+                                .get("giftsPreferences"))
                 );
                 finalArray.add(childInput);
             }
@@ -58,8 +60,8 @@ public class Utils {
         }
     }
 
-    /*
-     * Transforms an array of JSON's into an array of GiftInput
+    /**
+     * This method transforms an array of JSON's into an array of GiftInput.
      */
     public static ArrayList<GiftInput> convertJSONArrayGift(final JSONArray array) {
         if (array != null) {
@@ -78,8 +80,8 @@ public class Utils {
         }
     }
 
-    /*
-     * Transforms an array of JSON's into an array of ChildUpdateInput
+    /**
+     * This method transforms an array of JSON's into an array of ChildUpdateInput.
      */
     public static ArrayList<ChildUpdateInput> convertJSONArrayUpdate(final JSONArray array) {
         if (array != null) {
@@ -87,10 +89,12 @@ public class Utils {
             for (Object object: array) {
                 int id = ((Long) ((JSONObject) object).get("id")).intValue();
                 Double niceScore = null;
-                if ( (((JSONObject) object).get("niceScore")) != null) {
+                if ((((JSONObject) object).get("niceScore")) != null) {
                     niceScore = ((Long) ((JSONObject) object).get("niceScore")).doubleValue();
                 }
-                ArrayList<String> giftPref = Utils.convertJSONArrayString((JSONArray) ((JSONObject)object).get("giftsPreferences"));
+                ArrayList<String> giftPref = Utils
+                        .convertJSONArrayString((JSONArray) ((JSONObject) object)
+                                .get("giftsPreferences"));
                 ChildUpdateInput childUpdateInput = new ChildUpdateInput(id, niceScore, giftPref);
                 finalArray.add(childUpdateInput);
             }
@@ -100,12 +104,17 @@ public class Utils {
         }
     }
 
-    public static ArrayList<Gift> sortGiftList(ArrayList<Gift> gifts) {
+    /**
+     *  This method sorts any ArrayList<Gift> in ascending order based on the price.
+     */
+    public static void sortGiftList(final ArrayList<Gift> gifts) {
         gifts.sort(Comparator.comparing(Gift::getPrice));
-        return gifts;
     }
 
-    public static ArrayList<Gift> pickArray(String giftType) {
+    /**
+     * This method returns the specific Gift array using the String parameter to identify type.
+     */
+    public static ArrayList<Gift> pickArray(final String giftType) {
         return switch (giftType) {
             case "Board Games" -> Database.getDatabase().getBoardGames();
             case "Books" -> Database.getDatabase().getBooks();
@@ -117,32 +126,42 @@ public class Utils {
         };
     }
 
-    public static void AddNewChildren(YearDataInput currChanges) {
-        //check if there are any changes to be done
+    /**
+     * This method adds new children in the list of children.
+     */
+    public static void addNewChildren(final YearDataInput currChanges) {
+        // Check if there are any changes to be done
         if (currChanges.getNewChildren() != null || currChanges.getNewChildren().size() != 0) {
 
             for (ChildInput childInput: currChanges.getNewChildren()) {
                 Child child = new Child(childInput);
-                // if child is not yet young adult we should add him/her to the list
-                if (child.getAge() <= 18) {
+                // If child is not yet young adult we should add him/her to the list
+                if (child.getAge() <= Constants.MAX_AGE) {
                     Database.getDatabase().getListOfChildren().add(child);
                 }
             }
         }
     }
 
-    public static boolean checkId(Integer id) {
-        boolean sem = false; // id has not been found
-        for (int i = 0; i < Database.getDatabase().getListOfChildren().size() && !sem; i++) {
+    /**
+     * This method checks if a given id is valid.
+     */
+    public static boolean checkId(final Integer id) {
+        // Id has not been found
+        boolean valid = false;
+        for (int i = 0; i < Database.getDatabase().getListOfChildren().size() && !valid; i++) {
             Child child = Database.getDatabase().getListOfChildren().get(i);
             if (Objects.equals(child.getId(), id)) {
-                sem = true;
+                valid = true;
             }
         }
-        return sem;
+        return valid;
     }
 
-    public static int getIndexChild(Integer id) {
+    /**
+     * This method returns the index of the child with the specific id.
+     */
+    public static int getIndexChild(final Integer id) {
         for (int i = 0; i < Database.getDatabase().getListOfChildren().size(); i++) {
             Child child = Database.getDatabase().getListOfChildren().get(i);
             if (Objects.equals(child.getId(), id)) {
@@ -152,30 +171,38 @@ public class Utils {
         return 0;
     }
 
-    public static void UpdateExistingChildren(YearDataInput currChanges) {
-        // check if there are any changes to be done
-        if (currChanges.getChildrenUpdates() != null || currChanges.getChildrenUpdates().size() != 0) {
+    /**
+     * This method updates the info about the kinds from the already existing list.
+     */
+    public static void updateExistingChildren(final YearDataInput currChanges) {
+        // Check if there are any changes to be done
+        if (currChanges.getChildrenUpdates() != null
+                || currChanges.getChildrenUpdates().size() != 0) {
 
             for (ChildUpdateInput childUpdateInput: currChanges.getChildrenUpdates()) {
                 Integer id = childUpdateInput.getId();
 
-                // check if child with specific id exist
+                // Check if child with specific id exist
                 if (checkId(id)) {
                     int index = getIndexChild(id);
-                    // update niceScore if necessary
+                    // Update niceScore if necessary
                     if (childUpdateInput.getNewNiceScore() != null) {
                         Double score = childUpdateInput.getNewNiceScore();
-                        Database.getDatabase().getListOfChildren().get(index).getNiceScoreHistory().add(score);
+                        Database.getDatabase().getListOfChildren().get(index).getNiceScoreHistory()
+                                .add(score);
                     }
 
-                    // update gift preferences if necessary
-                    if (childUpdateInput.getNewGiftPreferences() != null || childUpdateInput.getNewGiftPreferences().size() != 0) {
+                    // Update gift preferences if necessary
+                    if (childUpdateInput.getNewGiftPreferences() != null || childUpdateInput
+                            .getNewGiftPreferences().size() != 0) {
                         ArrayList<String> strings = childUpdateInput.getNewGiftPreferences();
                         for (int i = strings.size() - 1; i >= 0; i--) {
-                            int ok = 0; // to remove
+                            // ok == 0 -> String has not been found in the list.
+                            int ok = 0;
                             int removeIndex = 0;
                             Child child = Database.getDatabase().getListOfChildren().get(index);
-                            for (int j = 0; j < child.getGiftsPreferences().size() && ok == 0; j++) {
+                            for (int j = 0; j < child.getGiftsPreferences().size()
+                                    && ok == 0; j++) {
                                 if (strings.get(i).equals(child.getGiftsPreferences().get(j))) {
                                     ok = 1;
                                     removeIndex = j;
@@ -184,7 +211,7 @@ public class Utils {
                             if (ok == 1) {
                                 child.getGiftsPreferences().remove(removeIndex);
                             }
-                            child.getGiftsPreferences().add(0,strings.get(i));
+                            child.getGiftsPreferences().add(0, strings.get(i));
                         }
                     }
                 }
@@ -192,8 +219,11 @@ public class Utils {
         }
     }
 
-    public static void AddNewGifts(YearDataInput currChanges) {
-        //check if there are any changes to be done
+    /**
+     * This method adds new gifts in the list of gifts.
+     */
+    public static void addNewGifts(final YearDataInput currChanges) {
+        // Check if there are any changes to be done
         if (currChanges.getNewGifts() != null || currChanges.getNewGifts().size() != 0) {
             for (GiftInput giftInput: currChanges.getNewGifts()) {
                 Gift gift = new Gift(giftInput);
@@ -201,7 +231,4 @@ public class Utils {
             }
         }
     }
-
-
-
 }

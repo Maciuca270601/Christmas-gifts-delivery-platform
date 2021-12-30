@@ -1,12 +1,11 @@
 package write;
 
 import entities.Child;
-
 import java.util.ArrayList;
 
-public class SaveAnnualArray {
+public final class SaveAnnualArray {
 
-    private ArrayList<Child> children;
+    private final ArrayList<Child> children;
 
     public SaveAnnualArray() {
         this.children = new ArrayList<>();
@@ -16,7 +15,10 @@ public class SaveAnnualArray {
         return children;
     }
 
-    public void addChildren(ArrayList<Child> list) {
+    /**
+     * This method adds all children from list to this.children.
+     */
+    public void addChildren(final ArrayList<Child> list) {
         for (Child child: list) {
             this.children.add(new Child(child));
         }

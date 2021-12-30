@@ -1,14 +1,12 @@
 package write;
 
-import entities.Child;
-
 import java.util.ArrayList;
 
-public class SaveSimulationArrays {
+public final class SaveSimulationArrays {
 
-    public ArrayList<SaveAnnualArray> annualChildren;
+    private final ArrayList<SaveAnnualArray> annualChildren;
 
-    public SaveSimulationArrays () {
+    public SaveSimulationArrays() {
         this.annualChildren = new ArrayList<>();
     }
 
@@ -16,7 +14,10 @@ public class SaveSimulationArrays {
         return annualChildren;
     }
 
-    public void addArray(SaveAnnualArray saveAnnualArray) {
+    /**
+     * This method adds every saveAnnualArray object to this.annualChildren.
+     */
+    public void addArray(final SaveAnnualArray saveAnnualArray) {
         this.annualChildren.add(saveAnnualArray);
     }
 }
