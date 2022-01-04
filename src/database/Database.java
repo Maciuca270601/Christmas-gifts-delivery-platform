@@ -5,6 +5,7 @@ import entities.Gift;
 import fileio.ChildInput;
 import fileio.GiftInput;
 import fileio.YearDataInput;
+import strategy.SortStrategy;
 import utils.Utils;
 import java.util.ArrayList;
 
@@ -111,6 +112,10 @@ public final class Database {
         Utils.sortGiftList(sweets);
         Utils.sortGiftList(technology);
         Utils.sortGiftList(toys);
+    }
+
+    public void sortListOfChildren(SortStrategy sortStrategy) {
+        sortStrategy.sort();
     }
 
     /**

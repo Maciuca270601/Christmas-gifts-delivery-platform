@@ -3,11 +3,13 @@ package solver;
 import common.Constants;
 import database.Database;
 import entities.Child;
+import factory.ElfFactory;
 import fileio.YearDataInput;
+import strategy.SortById;
+import strategy.SortStrategy;
+import strategy.StrategyFactory;
 import utils.Utils;
-import visitor.AverageScoreVisitor;
-import visitor.BudgetVisitor;
-import visitor.GiveGiftVisitor;
+import visitor.*;
 
 public final class SolveNextYears {
 
@@ -50,17 +52,53 @@ public final class SolveNextYears {
             child.accept(averageScore);
         }
 
+        // Set bonus score for every child.
+        BonusScoreVisitor bonusScore = new BonusScoreVisitor();
+        for (Child child: Database.getDatabase().getListOfChildren()) {
+            child.accept(bonusScore);
+        }
+
+        // Set city score for every child.
+        CityScoreVisitor cityScore = new CityScoreVisitor();
+        SortById idSort = new SortById();
+        Database.getDatabase().sortListOfChildren(idSort);
+        for (Child child: Database.getDatabase().getListOfChildren()) {
+            child.accept(cityScore);
+        }
+
         // Update budget for every child.
         BudgetVisitor budget = new BudgetVisitor();
         for (Child child: Database.getDatabase().getListOfChildren()) {
             child.accept(budget);
         }
 
+        // Set Black and Pink elf for every child.
+        for (Child child: Database.getDatabase().getListOfChildren()) {
+            if (child.getElf().equals("black") || child.getElf().equals("pink")) {
+                Visitor elfVisitor = ElfFactory.createElf(child.getElf());
+                child.accept(elfVisitor);
+            }
+        }
+
+        // Set strategy for every child.
+        String type = Database.getDatabase().getAnnualChanges().get(currentYear - 1).getStrategy();
+        SortStrategy strategy = StrategyFactory.createStrategy(type);
+        Database.getDatabase().sortListOfChildren(strategy);
+
         // Give gifts for every child.
         GiveGiftVisitor giveGift = new GiveGiftVisitor();
         for (Child child: Database.getDatabase().getListOfChildren()) {
             child.getReceivedGifts().clear();
             child.accept(giveGift);
+        }
+
+        // Set yellow elf for every child
+        for (Child child: Database.getDatabase().getListOfChildren()) {
+            if (child.getElf().equals("yellow")){
+                Visitor elfVisitor = ElfFactory.createElf(child.getElf());
+                child.getReceivedGifts().clear();
+                child.accept(elfVisitor);
+            }
         }
     }
 }

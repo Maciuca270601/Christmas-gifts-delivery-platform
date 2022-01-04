@@ -1,17 +1,18 @@
 package write;
 
 import entities.Child;
+
 import java.util.ArrayList;
 
 public final class SaveAnnualArray {
 
-    private final ArrayList<Child> children;
+    private final ArrayList<ChildOutput> children;
 
     public SaveAnnualArray() {
         this.children = new ArrayList<>();
     }
 
-    public ArrayList<Child> getChildren() {
+    public ArrayList<ChildOutput> getChildren() {
         return children;
     }
 
@@ -20,7 +21,7 @@ public final class SaveAnnualArray {
      */
     public void addChildren(final ArrayList<Child> list) {
         for (Child child: list) {
-            this.children.add(new Child(child));
+            this.children.add(new ChildOutput(child));
         }
     }
 }

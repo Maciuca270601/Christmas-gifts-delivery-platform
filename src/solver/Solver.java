@@ -2,10 +2,14 @@ package solver;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import database.Database;
+import entities.Child;
+import strategy.SortById;
+import strategy.SortStrategy;
 import write.SaveAnnualArray;
 import write.SaveSimulationArrays;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public final class Solver {
     private final SaveSimulationArrays saveSimulationArrays;
@@ -28,6 +32,8 @@ public final class Solver {
 
         // Save the result of the first year of simulation.
         SaveAnnualArray saveAnnualArray = new SaveAnnualArray();
+        SortById sortId = new SortById();
+        Database.getDatabase().sortListOfChildren(sortId);
         saveAnnualArray.addChildren(Database.getDatabase().getListOfChildren());
         this.saveSimulationArrays.addArray(saveAnnualArray);
 
@@ -38,6 +44,7 @@ public final class Solver {
 
             // Save the result of the next years of simulation.
             SaveAnnualArray save = new SaveAnnualArray();
+            Database.getDatabase().sortListOfChildren(sortId);
             save.addChildren(Database.getDatabase().getListOfChildren());
             this.saveSimulationArrays.addArray(save);
         }

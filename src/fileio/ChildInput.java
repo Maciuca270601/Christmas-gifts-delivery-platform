@@ -11,10 +11,13 @@ public final class ChildInput {
     private final String city;
     private final Double niceScore;
     private final ArrayList<String> giftsPreferences;
+    private final Integer niceScoreBonus;
+    private final String elf;
 
     public ChildInput(final Integer id, final String lastName, final String firstName,
                       final Integer age, final String city, final Double niceScore,
-                      final ArrayList<String> giftsPreferences) {
+                      final ArrayList<String> giftsPreferences, final Integer niceScoreBonus,
+                      final String elf) {
         this.id = id;
         this.lastName = lastName;
         this.firstName = firstName;
@@ -22,6 +25,8 @@ public final class ChildInput {
         this.city = city;
         this.niceScore = niceScore;
         this.giftsPreferences = giftsPreferences;
+        this.niceScoreBonus = niceScoreBonus;
+        this.elf = elf;
     }
 
     public Integer getId() {
@@ -50,5 +55,13 @@ public final class ChildInput {
 
     public ArrayList<String> getGiftsPreferences() {
         return giftsPreferences;
+    }
+
+    public Integer getNiceScoreBonus() {
+        return niceScoreBonus;
+    }
+
+    public String getElf() {
+        return elf;
     }
 }

@@ -50,7 +50,9 @@ public final class Utils {
                         (String) ((JSONObject) object).get("city"),
                         ((Long) ((JSONObject) object).get("niceScore")).doubleValue(),
                         Utils.convertJSONArrayString((JSONArray) ((JSONObject) object)
-                                .get("giftsPreferences"))
+                                .get("giftsPreferences")),
+                        ((Long) ((JSONObject) object).get("niceScoreBonus")).intValue(),
+                        (String) ((JSONObject) object).get("elf")
                 );
                 finalArray.add(childInput);
             }
@@ -70,7 +72,8 @@ public final class Utils {
                 GiftInput giftInput = new GiftInput(
                         (String) ((JSONObject) object).get("productName"),
                         ((Long) ((JSONObject) object).get("price")).doubleValue(),
-                        (String) ((JSONObject) object).get("category")
+                        (String) ((JSONObject) object).get("category"),
+                        ((Long) ((JSONObject) object).get("quantity")).intValue()
                 );
                 finalArray.add(giftInput);
             }
@@ -95,7 +98,8 @@ public final class Utils {
                 ArrayList<String> giftPref = Utils
                         .convertJSONArrayString((JSONArray) ((JSONObject) object)
                                 .get("giftsPreferences"));
-                ChildUpdateInput childUpdateInput = new ChildUpdateInput(id, niceScore, giftPref);
+                String elf = (String) ((JSONObject) object).get("elf");
+                ChildUpdateInput childUpdateInput = new ChildUpdateInput(id, niceScore, giftPref, elf);
                 finalArray.add(childUpdateInput);
             }
             return finalArray;
@@ -214,6 +218,12 @@ public final class Utils {
                             child.getGiftsPreferences().add(0, strings.get(i));
                         }
                     }
+
+                    // Update elf is necessary
+                    if (childUpdateInput.getElf() != null) {
+                        String newElf = childUpdateInput.getElf();
+                        Database.getDatabase().getListOfChildren().get(index).setElf(newElf);
+                    }
                 }
             }
         }
@@ -228,7 +238,22 @@ public final class Utils {
             for (GiftInput giftInput: currChanges.getNewGifts()) {
                 Gift gift = new Gift(giftInput);
                 Database.getDatabase().getListOfGifts().add(gift);
+                String giftType = gift.getCategory();
+                ArrayList<Gift> gifts = Utils.pickArray(giftType);
+                gifts.add(gift);
             }
         }
+    }
+
+    public static ArrayList<String> removeDuplicatesGiftPref(Child child) {
+        ArrayList<String> oldPref = child.getGiftsPreferences();
+        ArrayList<String> newPref = new ArrayList<>();
+
+        for (String s: oldPref) {
+            if (!newPref.contains(s)) {
+                newPref.add(s);
+            }
+        }
+        return newPref;
     }
 }

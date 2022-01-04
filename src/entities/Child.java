@@ -12,11 +12,14 @@ public final class Child implements Visitable {
     private final String firstName;
     private final String city;
     private Integer age;
-    private final ArrayList<String> giftsPreferences;
+    private ArrayList<String> giftsPreferences;
     private Double averageScore;
     private final ArrayList<Double> niceScoreHistory;
     private Double assignedBudget;
     private final ArrayList<Gift> receivedGifts;
+    private final Integer niceScoreBonus;
+    private String elf;
+    private Double cityScore;
 
     public Child(final ChildInput childData) {
         this.id = childData.getId();
@@ -31,6 +34,9 @@ public final class Child implements Visitable {
         this.niceScoreHistory.add(childData.getNiceScore());
         this.assignedBudget = null;
         this.receivedGifts = new ArrayList<>();
+        this.niceScoreBonus = childData.getNiceScoreBonus();
+        this.elf = childData.getElf();
+        this.cityScore = null;
     }
 
     public Child(final Child child) {
@@ -49,6 +55,9 @@ public final class Child implements Visitable {
         for (Gift gift: child.receivedGifts) {
             this.receivedGifts.add(new Gift(gift));
         }
+        this.niceScoreBonus = child.niceScoreBonus;
+        this.elf = child.elf;
+        this.cityScore = child.cityScore;
     }
 
     public Integer getId() {
@@ -91,6 +100,22 @@ public final class Child implements Visitable {
         return receivedGifts;
     }
 
+    public Integer getNiceScoreBonus() {
+        return niceScoreBonus;
+    }
+
+    public String getElf() {
+        return elf;
+    }
+
+    public Double getCityScore() {
+        return cityScore;
+    }
+
+    public void setCityScore(Double cityScore) {
+        this.cityScore = cityScore;
+    }
+
     public void setAverageScore(final Double averageScore) {
         this.averageScore = averageScore;
     }
@@ -101,6 +126,14 @@ public final class Child implements Visitable {
 
     public void setAge(final Integer age) {
         this.age = age;
+    }
+
+    public void setElf(final String elf) {
+        this.elf = elf;
+    }
+
+    public void setGiftsPreferences(ArrayList<String> giftsPreferences) {
+        this.giftsPreferences = giftsPreferences;
     }
 
     @Override

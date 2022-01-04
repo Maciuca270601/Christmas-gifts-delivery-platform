@@ -91,7 +91,9 @@ public class InputLoader {
                     ArrayList<ChildUpdateInput> updates;
                     updates = Utils.convertJSONArrayUpdate(arrayChanges);
 
-                    YearDataInput yearData = new YearDataInput(budget, gifts, children, updates);
+                    String strategy = (String) ((JSONObject) jsonChange).get("strategy");
+
+                    YearDataInput yearData = new YearDataInput(budget, gifts, children, updates, strategy);
                     annualChanges.add(yearData);
                 }
             } else {
