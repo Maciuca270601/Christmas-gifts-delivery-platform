@@ -96,7 +96,6 @@ public final class SolveNextYears {
         for (Child child: Database.getDatabase().getListOfChildren()) {
             if (child.getElf().equals("yellow")){
                 Visitor elfVisitor = ElfFactory.createElf(child.getElf());
-                child.getReceivedGifts().clear();
                 child.accept(elfVisitor);
             }
         }
