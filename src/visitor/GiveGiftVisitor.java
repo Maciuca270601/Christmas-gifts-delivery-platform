@@ -21,8 +21,8 @@ public final class GiveGiftVisitor implements Visitor {
                 gifts = Utils.pickArray(strings.get(i));
                 for (int j = 0; j < gifts.size() && ok == 0; j++) {
                     int quantity = gifts.get(j).getQuantity();
-                    if (gifts.get(j).getPrice() < child.getAssignedBudget() - currentSpendings &&
-                        quantity != 0) {
+                    if (gifts.get(j).getPrice() < child.getAssignedBudget() - currentSpendings
+                            && quantity != 0) {
                         child.getReceivedGifts().add(gifts.get(j));
                         currentSpendings += gifts.get(j).getPrice();
                         gifts.get(j).setQuantity(quantity - 1);

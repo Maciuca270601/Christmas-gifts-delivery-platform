@@ -93,7 +93,8 @@ public class InputLoader {
 
                     String strategy = (String) ((JSONObject) jsonChange).get("strategy");
 
-                    YearDataInput yearData = new YearDataInput(budget, gifts, children, updates, strategy);
+                    YearDataInput yearData = new YearDataInput(budget, gifts, children,
+                                            updates, strategy);
                     annualChanges.add(yearData);
                 }
             } else {

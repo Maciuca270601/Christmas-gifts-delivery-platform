@@ -9,7 +9,12 @@ import strategy.SortById;
 import strategy.SortStrategy;
 import strategy.StrategyFactory;
 import utils.Utils;
-import visitor.*;
+import visitor.Visitor;
+import visitor.AverageScoreVisitor;
+import visitor.GiveGiftVisitor;
+import visitor.BudgetVisitor;
+import visitor.CityScoreVisitor;
+import visitor.BonusScoreVisitor;
 
 public final class SolveNextYears {
 
@@ -94,7 +99,7 @@ public final class SolveNextYears {
 
         // Set yellow elf for every child
         for (Child child: Database.getDatabase().getListOfChildren()) {
-            if (child.getElf().equals("yellow")){
+            if (child.getElf().equals("yellow")) {
                 Visitor elfVisitor = ElfFactory.createElf(child.getElf());
                 child.accept(elfVisitor);
             }

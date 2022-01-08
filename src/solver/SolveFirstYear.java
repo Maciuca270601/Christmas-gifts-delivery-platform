@@ -6,7 +6,12 @@ import entities.Child;
 import factory.ElfFactory;
 import strategy.SortById;
 import utils.Utils;
-import visitor.*;
+import visitor.Visitor;
+import visitor.BudgetVisitor;
+import visitor.BonusScoreVisitor;
+import visitor.CityScoreVisitor;
+import visitor.GiveGiftVisitor;
+import visitor.AverageScoreVisitor;
 
 public final class SolveFirstYear {
 

@@ -99,7 +99,8 @@ public final class Utils {
                         .convertJSONArrayString((JSONArray) ((JSONObject) object)
                                 .get("giftsPreferences"));
                 String elf = (String) ((JSONObject) object).get("elf");
-                ChildUpdateInput childUpdateInput = new ChildUpdateInput(id, niceScore, giftPref, elf);
+                ChildUpdateInput childUpdateInput = new ChildUpdateInput(id, niceScore,
+                                                    giftPref, elf);
                 finalArray.add(childUpdateInput);
             }
             return finalArray;
@@ -245,7 +246,10 @@ public final class Utils {
         }
     }
 
-    public static ArrayList<String> removeDuplicatesGiftPref(Child child) {
+    /**
+     * This method is used to remove duplicates from gifts preferences if there are any.
+     */
+    public static ArrayList<String> removeDuplicatesGiftPref(final Child child) {
         ArrayList<String> oldPref = child.getGiftsPreferences();
         ArrayList<String> newPref = new ArrayList<>();
 

@@ -112,7 +112,7 @@ public final class Child implements Visitable {
         return cityScore;
     }
 
-    public void setCityScore(Double cityScore) {
+    public void setCityScore(final Double cityScore) {
         this.cityScore = cityScore;
     }
 
@@ -132,7 +132,7 @@ public final class Child implements Visitable {
         this.elf = elf;
     }
 
-    public void setGiftsPreferences(ArrayList<String> giftsPreferences) {
+    public void setGiftsPreferences(final ArrayList<String> giftsPreferences) {
         this.giftsPreferences = giftsPreferences;
     }
 

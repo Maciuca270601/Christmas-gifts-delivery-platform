@@ -114,7 +114,10 @@ public final class Database {
         Utils.sortGiftList(toys);
     }
 
-    public void sortListOfChildren(SortStrategy sortStrategy) {
+    /**
+     * This method is used to apply a sort strategy
+     */
+    public void sortListOfChildren(final SortStrategy sortStrategy) {
         sortStrategy.sort();
     }
 
