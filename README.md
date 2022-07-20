@@ -110,6 +110,3 @@ all the information from/to the "json" files.
 Lab4: https://ocw.cs.pub.ro/courses/poo-ca-cd/laboratoare/static-final
 Lab7: https://ocw.cs.pub.ro/courses/poo-ca-cd/laboratoare/visitor
 JSON & Jackson: https://ocw.cs.pub.ro/courses/poo-ca-cd/laboratoare/tutorial-json-jackson
-
-###### Github
-https://github.com/Maciuca270601/ProiectPOO (private)
